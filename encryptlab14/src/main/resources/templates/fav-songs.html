@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <title>Fav Songs</title>
+</head>
+<body>
+<main>
+<h1 class="fav-songs-title">My favorite Songs</h1>
+    <div class="button-container">
+        <button clas="fav-songs-button" onclick="document.getElementById('post-form-popup').style.display='block'">Add a New Song</button>
+    </div>
+
+    <div th:each="post : ${allPosts}" class="fav-songs-post">
+        <h3 class="fav-songs-post-username" th:if="${post.siteUser != null}" th:text="${post.siteUser.username}"></h3>
+        <p class="fav-songs-date" th:text="${post.date}"></p>
+        <div class="fav-songs-postcontent-container">
+            <p th:text="${post.postContent}"></p>
+        </div>
+    </div>
+
+    <div id="post-form-popup" class="fav-songs-popup">
+        <div class="fav-songs-popup-content">
+            <form class="fav-songs-form" th:action="@{'/fav-songs/' + ${siteUser.username} + '/add-post'}" method="post">
+                <fieldset>
+                    <legend class="fav-songs-label">Add a new song</legend>
+                    <input type="hidden" name="siteUserId" th:value="${siteUser.id}">
+                    <label for="new-content-text" class="fav-songs-label">Content</label>
+                    <textarea id="new-content-text" type="text" name="postContent" required style="width: 100%; height: 200px; resize: vertical; max-width: 100%;"></textarea>
+                    <div class="modal-buttons">
+                        <input class="modal-button" type="submit" value="Submit Post">
+                        <button class="modal-button" type="button" onclick="document.getElementById('post-form-popup').style.display='none'">Cancel</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>
